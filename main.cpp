@@ -104,9 +104,9 @@ int main() {
     double a1 = M_PI * M_PI - 10;
     double a2 = M_PI * M_PI + 1;
     double m = (a1 + a2) / 2;
-    double Rboard = M_PI*M_PI;
+    double Rboard = M_PI * M_PI;
 
-    std::vector<std::pair<double, double>> sol = solution(0, 3.1415, 0.001, {0, m}, f);
+    std::vector<std::pair<double, double>> sol = solution(0, 3.1415, 0.01, {0, m}, f);
     while (std::fabs(sol[sol.size() - 1].second - Rboard) > 1e-6) {
         if (sol[sol.size() - 1].second > Rboard) {
             a2 = m;
@@ -118,13 +118,14 @@ int main() {
             }
         }
 
-        sol = solution(0, 3.1415, 0.001, {0, m}, f);
+        sol = solution(0, 3.1415, 0.01, {0, m}, f);
     }
-    std::cout<<m<<std::endl;
+    std::cout << m << std::endl;
     std::ofstream fout("C:\\Users\\Demia\\CLionProjects\\Task 3 boardary-task\\data.txt");
-    for (int i = 0; i < sol.size(); ++i) {
+    for (int i = 0.5 / 0.01; i < sol.size(); i+=0.5/0.01) {
         std::cout << sol[i].first << " " << sol[i].second << std::endl;
         fout << sol[i].first << " " << sol[i].second << std::endl;
+
     }
     fout.close();
     return 0;
