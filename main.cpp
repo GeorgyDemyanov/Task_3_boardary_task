@@ -97,32 +97,35 @@ std::vector<std::pair<double, double>> solution(double start, double end, double
 std::vector<double> f(double time, std::vector<double> sol) {
     return {sol[1], 2 - 6 * time + 2 * pow(time, 3) + (time * time - 3) * exp(time) * sin(time) * (1 + cos(time)) +
                     cos(time) * (exp(time) + (time * time - 1) + pow(time, 4) - 3 * time * time) -
-                    (time * time - 3) * sol[1] + (time * time - 3) * cos(time) * sol[0]};
+                    (time * time - 3) * sol[1] - (time * time - 3) * cos(time) * sol[0]};
 }
-
+//ебаный блядь минус, мать его шлюха в рот ебал говно с залупы, блядь 4 ебаного утра, я сука час уебал на то чтобы понять, почему нихуя не получается
 int main() {
     double a1 = M_PI * M_PI - 10;
     double a2 = M_PI * M_PI + 1;
     double m = (a1 + a2) / 2;
     double Rboard = M_PI * M_PI;
 
-    std::vector<std::pair<double, double>> sol = solution(0, 3.1415, 0.01, {0, m}, f);
-    while (std::fabs(sol[sol.size() - 1].second - Rboard) > 1e-6) {
-        if (sol[sol.size() - 1].second > Rboard) {
-            a2 = m;
-            m = (a1 + a2) / 2;
-        } else {
-            if (sol[sol.size() - 1].second < Rboard) {
-                a1 = m;
-                m = (a1 + a2) / 2;
-            }
+    std::vector<std::pair<double, double>> sol = solution(0, 3.1415, 0.1, {0, m}, f);
+    while (std::fabs(sol[sol.size() - 1].second - Rboard) > 1e-2) {
+         if(sol[sol.size() - 1].second < Rboard){
+            a1=m;
+            m=(a1+a2)/2;
+            std::cout<<"m= "<<m<<std::endl;
+             std::cout<<sol[sol.size() - 1].second<<std::endl;
         }
-
-        sol = solution(0, 3.1415, 0.01, {0, m}, f);
+        else{
+            a2=m;
+            m=(a1+a2)/2;
+             std::cout<<"m= "<<m<<std::endl;
+             std::cout<<sol[sol.size() - 1].second<<std::endl;
+        }
+        sol = solution(0, 3.1415, 0.1, {0, m}, f);
     }
     std::cout << m << std::endl;
+    std::cout<<sol[sol.size() - 1].second<<std::endl;
     std::ofstream fout("C:\\Users\\Demia\\CLionProjects\\Task 3 boardary-task\\data.txt");
-    for (int i = 0.5 / 0.01; i < sol.size(); i+=0.5/0.01) {
+    for (int i = 0.5/0.1; i < sol.size(); i+=0.5/0.1) {
         std::cout << sol[i].first << " " << sol[i].second << std::endl;
         fout << sol[i].first << " " << sol[i].second << std::endl;
 
